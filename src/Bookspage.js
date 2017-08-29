@@ -9,7 +9,7 @@ class Bookspage extends Component {
     super(props);
     this.state = {
       isLoading: true,
-      isOpenDrop: false,
+      books: [],
     };
     // this._toggle = this._toggle.bind(this);
     // this._togDrop = this._togDrop.bind(this);
