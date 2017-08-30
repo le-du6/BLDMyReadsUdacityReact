@@ -11,7 +11,8 @@ Then install the needed Node modules with the command
  ```npm install```
 
 And finaly lauch the app with
- ```npm start```
+ ``` shell
+ npm start```
 
 This app was bootstrapped with [Create React App] (https://github.com/facebookincubator/create-react-app) so you can update it easly.
 
