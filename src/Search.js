@@ -6,7 +6,8 @@ class Search extends Component {
     <div>
       <div className="search-books">
         <div className="search-books-bar">
-          <a className="close-search" onClick={()=> this.props.history.push('/')}>Close</a>
+          <a className="close-search" href='/'>Close</a>
+          {/* <a className="close-search" onClick={()=> this.props.history.push('/')}>Close</a> */}
           <div className="search-books-input-wrapper">
             {/* NOTES: The search from BooksAPI is limited to a particular set of search terms. You can find these search terms here:
             https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md However, remember that the
@@ -18,7 +19,7 @@ class Search extends Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            
+
           </ol>
         </div>
       </div>

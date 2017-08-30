@@ -32,10 +32,15 @@ class App extends Component {
 
   render() {
     const shelfSplitter = this.state.shelfSplitter;
+    const shelfSplitterUpdater = this.shelfSplitterUpdater;
     return (
       <div>
-        <Route exact path="/" component={Bookspage} shelfSplitter={shelfSplitter}/>
-        <Route path="/search" component={Search} shelfSplitter={shelfSplitter}/>
+        <Route
+            exact path="/"
+            render={() => <Bookspage shelfSplitter={shelfSplitter} shelfSplitterUpdater={shelfSplitterUpdater}/>} />
+        <Route
+            path="/search" 
+            render={() => <Search  shelfSplitter={shelfSplitter} shelfSplitterUpdater={shelfSplitterUpdater}/>} />
       </div>
     );
   }

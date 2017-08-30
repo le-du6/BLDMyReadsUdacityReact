@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import Bookshelf from './Bookshelf';
+import { getAll } from './BooksAPI';
+import camelcase from 'camelcase';
 
-const shelfsCategory = ["currentlyReading", "wantToRead", "read"];
-const shelfs = ["Currently Reading", "Want to Read", "Read"];
+const shelfsLabels = ["Currently Reading", "Want to Read", "Read"];
 
 class Bookspage extends Component {
   constructor(props) {
@@ -11,21 +12,26 @@ class Bookspage extends Component {
       isLoading: true,
       books: [],
     };
-    // this._toggle = this._toggle.bind(this);
-    // this._togDrop = this._togDrop.bind(this);
-    // this._togMouseOn = this._togMouseOn.bind(this);
-    // this._logout = this._logout.bind(this);
   }
 
   componentWillMount() {
-
   }
 
   componentDidMount() {
-    setTimeout(x=>this.setState({isLoading: false}), 3000)
+    getAll().then(fullbooks => {
+      this.setState( { books: fullbooks.map(fullbook => {
+        let title, authors, imageLinks, id, shelf;
+        return ({ title, authors, imageLinks, id, shelf } = fullbook);
+      })
+    });
+      this.setState({ isLoading: false });
+    });
   }
 
   render() {
+    const books = this.state.books || [];
+    const shelfs = shelfsLabels.map(x=>camelcase(x)) || [];
+
     return (
       <div>
         <div className="list-books">
@@ -37,7 +43,7 @@ class Bookspage extends Component {
           <div className="list-books-content">
             {shelfs.map((shelf, index) =>
               <div key={index}>
-                <Bookshelf shelfTitle={shelf} books={null}/>
+                <Bookshelf shelfTitle={shelfsLabels[index]} books={books.filter(book=>book.shelf===shelf)} {...this.props}/>
               </div>
             )}
           </div>) : (
@@ -46,7 +52,8 @@ class Bookspage extends Component {
           )}
 
           <div className="open-search">
-            <a onClick={()=> this.props.history.push('/search')}>Add a book</a>
+            <a href='/search'>Add a book</a>
+            {/* <a onClick={()=> this.props.history.push('/search')}>Add a book</a> */}
             {/* <a onClick={()=> this.setState({ showSearchPage: true })}>Add a book</a> */}
           </div>
         </div>
