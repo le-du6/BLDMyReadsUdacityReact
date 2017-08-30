@@ -9,6 +9,11 @@ Clone this repo to your computer with the command:
  git clone https://github.com/le-du6/BLDMyReadsUdacityReact.git
  ```
 
+Go inside the cloning directory:
+ ``` shell
+ cd BLDMyReadsUdacityReact
+ ```
+
 Then install the needed Node modules with the command:
  ``` shell
  npm install
@@ -27,7 +32,7 @@ And finaly launch the app with:
                  |
                 App.js              <---- state + 2 routes :: maintain the "books user" state
                  |                                                                        ^
-            -------------            I                                                    |
+            -------------                                                                 |
             |           |                                                                 |
        Search.js    Bookspage.js    <---- state      <--->   fetch books getAll()         |
             |           |                                                                 | 

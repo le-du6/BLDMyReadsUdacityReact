@@ -17,10 +17,8 @@ class Bookspage extends Component {
     super(props);
     this.state = {
       isLoading: true,
-      isMoving: false,
       books: [],
     };
-    this.movingSpinner = this.movingSpinner.bind(this);
   }
 
   componentDidMount() {
@@ -38,11 +36,6 @@ class Bookspage extends Component {
     });
       this.setState({ isLoading: false });
     });
-  }
-
-  movingSpinner(state) {
-    this.setState({ isMoving: state });
-    this.setState({ isLoading: state });
   }
 
   render() {
@@ -65,7 +58,7 @@ class Bookspage extends Component {
           </div>
 
           {/* Waitting for the fetch books getAll request with a Spinner*/}
-          {(!this.state.isLoading) ? (
+          {(!this.state.isLoading && !this.props.isMoving) ? (
           <div className="list-books-content">
             {/* Looping over shelfs using Object.keys() */}
             {shelfsCategories.map((shelf, index) =>
@@ -75,14 +68,14 @@ class Bookspage extends Component {
                   shelfTitle={mappingShelfLabels[shelf]}
                   // filter each book corresponding to the new shelfSplitter updated from Parent App Component
                   books={newBooks.filter(book => book.shelf === shelf)}
-                  movingSpinner={this.movingSpinner}
+                  movingSpinner={this.props.movingSpinner}
                   {...this.props}/>
               </div>
             )}
           </div>) : (
             <h2 className=" bookshelf-books bookshelf bookshelf-title">
               <i className="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
-              {(this.state.isMoving) ? ' moving Books' : ' loading Books'}
+              {(this.props.isMoving) ? ' moving Books' : ' loading Books'}
             </h2>
           )}
 

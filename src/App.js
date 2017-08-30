@@ -9,8 +9,14 @@ class App extends Component {
     super(props);
     this.state = {
       shelfSplitter: {},
+      isMoving: false,      
     };
+    this.movingSpinner = this.movingSpinner.bind(this);
     this.shelfSplitterUpdater = this.shelfSplitterUpdater.bind(this);
+  }
+
+  movingSpinner(state) {
+    this.setState({ isMoving: state });
   }
 
   shelfSplitterUpdater(shelfSplitter) {
@@ -25,9 +31,19 @@ class App extends Component {
     return (
       <div>
         <Route exact path="/"
-            render={() => <Bookspage shelfSplitter={shelfSplitter} shelfSplitterUpdater={shelfSplitterUpdater}/>} />
+            render={() => <Bookspage
+                            shelfSplitter={shelfSplitter}
+                            shelfSplitterUpdater={shelfSplitterUpdater}
+                            isMoving={this.state.isMoving}
+                            movingSpinner={this.movingSpinner}
+                              />} />
         <Route path="/search" 
-            render={() => <Search  shelfSplitter={shelfSplitter} shelfSplitterUpdater={shelfSplitterUpdater}/>} />
+            render={() => <Search
+                            shelfSplitter={shelfSplitter}
+                            shelfSplitterUpdater={shelfSplitterUpdater}
+                            isMoving={this.state.isMoving}
+                            movingSpinner={this.movingSpinner}
+              />} />
       </div>
     );
   }

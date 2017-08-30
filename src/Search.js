@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { search } from './BooksAPI';
+import Book from './Book';
 
 class Search extends Component {
   constructor(props) {
@@ -12,6 +14,14 @@ class Search extends Component {
   }
 
   componentDidMount() {
+    search('Art', 20).then(fullbooks => {
+      this.setState( { books: fullbooks.map(fullbook => {
+        let { title, authors, imageLinks, id, shelf } = fullbook;
+        return { title, authors, imageLinks, id, shelf: "none" };
+      })
+    });
+      this.setState({ isLoading: false });
+    });
   }
 
   render() {
@@ -30,9 +40,22 @@ class Search extends Component {
           </div>
         </div>
         <div className="search-books-results">
-          <ol className="books-grid">
-
+            { (!this.state.isLoading)
+          ? (<ol className="books-grid">
+            {this.state.books.map((book, index) =>
+                <li key={index}>
+                  <Book book={book} {...this.props}/>
+                </li>
+            )}
           </ol>
+
+          ) : (
+            <h2 className=" bookshelf-books bookshelf bookshelf-title">
+              <i className="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
+              {(this.state.isMoving) ? ' moving Books' : ' searching Books'}
+            </h2>
+          )}
+
         </div>
       </div>
     </div>
