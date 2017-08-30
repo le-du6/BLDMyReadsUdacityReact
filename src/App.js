@@ -8,38 +8,25 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      shelfSplitter: {
-        "currentlyReading": [
-            "sJf1vQAACAAJ",
-            "jAUODAAAQBAJ"
-        ],
-        "wantToRead": [
-            "evuwdDLfAyYC",
-            "74XNzF_al3MC"
-        ],
-        "read": [
-            "IOejDAAAQBAJ",
-            "1wy49i-gQjIC"
-        ]
-    },
+      shelfSplitter: {},
     };
     this.shelfSplitterUpdater = this.shelfSplitterUpdater.bind(this);
   }
 
   shelfSplitterUpdater(shelfSplitter) {
+    console.log('from App: ',shelfSplitter);
     this.setState({ shelfSplitter });
   }
 
   render() {
     const shelfSplitter = this.state.shelfSplitter;
     const shelfSplitterUpdater = this.shelfSplitterUpdater;
+
     return (
       <div>
-        <Route
-            exact path="/"
+        <Route exact path="/"
             render={() => <Bookspage shelfSplitter={shelfSplitter} shelfSplitterUpdater={shelfSplitterUpdater}/>} />
-        <Route
-            path="/search" 
+        <Route path="/search" 
             render={() => <Search  shelfSplitter={shelfSplitter} shelfSplitterUpdater={shelfSplitterUpdater}/>} />
       </div>
     );

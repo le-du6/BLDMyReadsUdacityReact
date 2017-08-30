@@ -3,7 +3,13 @@ import Bookshelf from './Bookshelf';
 import { getAll } from './BooksAPI';
 import camelcase from 'camelcase';
 
+// Define propers Shelfs Labels with Capitalization and correct Spacing
 const shelfsLabels = ["Currently Reading", "Want to Read", "Read"];
+// Construct a map with the corresponding camelCase shelf property
+let mappingShelfLabels = {};
+shelfsLabels.forEach(shelf => {
+  mappingShelfLabels[camelcase(shelf)] = shelf;
+});
 
 class Bookspage extends Component {
   constructor(props) {
@@ -14,23 +20,25 @@ class Bookspage extends Component {
     };
   }
 
-  componentWillMount() {
-  }
-
   componentDidMount() {
+    let shelfSplitter = {};
     getAll().then(fullbooks => {
       this.setState( { books: fullbooks.map(fullbook => {
-        let title, authors, imageLinks, id, shelf;
-        return ({ title, authors, imageLinks, id, shelf } = fullbook);
+        let { title, authors, imageLinks, id, shelf } = fullbook;
+        shelfSplitter[shelf] = (shelfSplitter[shelf] || []).concat(id);
+        this.props.shelfSplitterUpdater(shelfSplitter);
+        return { title, authors, imageLinks, id, shelf };
       })
     });
       this.setState({ isLoading: false });
     });
   }
 
+  componentWill
+
   render() {
     const books = this.state.books || [];
-    const shelfs = shelfsLabels.map(x=>camelcase(x)) || [];
+    const shelfs = Object.keys(this.props.shelfSplitter) ;
 
     return (
       <div>
@@ -41,11 +49,13 @@ class Bookspage extends Component {
 
           {(!this.state.isLoading) ? (
           <div className="list-books-content">
+
             {shelfs.map((shelf, index) =>
               <div key={index}>
-                <Bookshelf shelfTitle={shelfsLabels[index]} books={books.filter(book=>book.shelf===shelf)} {...this.props}/>
+                <Bookshelf shelfTitle={mappingShelfLabels[shelf]} books={books.filter(book=>book.shelf===shelf)} {...this.props}/>
               </div>
             )}
+
           </div>) : (
             <h2 className=" bookshelf-books bookshelf bookshelf-title">
               <i className="fa fa-spinner fa-pulse fa-lg fa-fw"></i> loading Books</h2>
@@ -53,8 +63,6 @@ class Bookspage extends Component {
 
           <div className="open-search">
             <a href='/search'>Add a book</a>
-            {/* <a onClick={()=> this.props.history.push('/search')}>Add a book</a> */}
-            {/* <a onClick={()=> this.setState({ showSearchPage: true })}>Add a book</a> */}
           </div>
         </div>
       </div>

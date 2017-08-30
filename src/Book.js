@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { update } from './BooksAPI';
 
 class Book extends Component {
   render() {
@@ -8,7 +9,16 @@ class Book extends Component {
             <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${this.props.book.imageLinks.thumbnail})`
               }}></div>
             <div className="book-shelf-changer">
-              <select defaultValue={this.props.book.shelf || "None"}>
+              <select
+                onChange={ event => {
+                  const moveTo = event.target.value;
+                  console.log(moveTo);
+                  update(this.props.book.id, moveTo).then( res => {
+                    console.log(res);
+                    this.props.shelfSplitterUpdater(res);
+                  })
+                }}
+                defaultValue={this.props.book.shelf || "None"}>
                   <option value="none" disabled>Move to...</option>
                   <option value="currentlyReading">Currently Reading</option>
                   <option value="wantToRead">Want to Read</option>
