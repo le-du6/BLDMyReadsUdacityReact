@@ -1,18 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Book from './Book';
 
-class Bookshelf extends Component {
-
-  render() {
-    return (
+// stateless intermediary "Book Shelf Category" component 
+const Bookshelf = (props) => (
       <div>
         <div className="bookshelf">
-          <h2 className="bookshelf-title">{this.props.shelfTitle}</h2>
+          <h2 className="bookshelf-title">{props.shelfTitle}</h2>
           <div className="bookshelf-books">
             <ol className="books-grid">
-              {this.props.books.map((book, index) =>
+              {props.books.map((book, index) =>
                 <li key={index}>
-                  <Book book={book} {...this.props}/>
+                  <Book book={book} {...props}/>
                 </li>
               )}
             </ol>
@@ -20,7 +18,5 @@ class Bookshelf extends Component {
         </div>
       </div>
     );
-  }
-}
 
 export default Bookshelf;

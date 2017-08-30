@@ -17,8 +17,10 @@ class Bookspage extends Component {
     super(props);
     this.state = {
       isLoading: true,
+      isMoving: false,
       books: [],
     };
+    this.movingSpinner = this.movingSpinner.bind(this);
   }
 
   componentDidMount() {
@@ -38,10 +40,14 @@ class Bookspage extends Component {
     });
   }
 
+  movingSpinner(state) {
+    this.setState({ isMoving: state });
+    this.setState({ isLoading: state });
+  }
+
   render() {
     // shortcuts
     const shelfs = this.props.shelfSplitter || null;
-
     // shortcut + re-affecting the correct shelf to each books when Re-render
     // modifiy the shelf of those filtered books according to the new shelf
     const newBooks = this.state.books.map(book => 
@@ -69,12 +75,15 @@ class Bookspage extends Component {
                   shelfTitle={mappingShelfLabels[shelf]}
                   // filter each book corresponding to the new shelfSplitter updated from Parent App Component
                   books={newBooks.filter(book => book.shelf === shelf)}
+                  movingSpinner={this.movingSpinner}
                   {...this.props}/>
               </div>
             )}
           </div>) : (
             <h2 className=" bookshelf-books bookshelf bookshelf-title">
-              <i className="fa fa-spinner fa-pulse fa-lg fa-fw"></i> loading Books</h2>
+              <i className="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
+              {(this.state.isMoving) ? ' moving Books' : ' loading Books'}
+            </h2>
           )}
 
           <div className="open-search">

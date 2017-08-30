@@ -14,7 +14,7 @@ class App extends Component {
   }
 
   shelfSplitterUpdater(shelfSplitter) {
-    console.log('from App: ',shelfSplitter);
+    // console.log('from App: ',shelfSplitter);
     this.setState({ shelfSplitter });
   }
 
