@@ -5,13 +5,13 @@ This application is a A Book Lending App
 
 ## Install
 Clone this repo to your computer with the command
-```git clone https://github.com/le-du6/BLDMyReadsUdacityReact.git```
+ ```git clone https://github.com/le-du6/BLDMyReadsUdacityReact.git```
 
 Then install the needed Node modules with the command
-```npm install````
+ ```npm install```
 
 And finaly lauch the app with
-```npm start```
+ ```npm start```
 
 This app was bootstrapped with [Create React App] (https://github.com/facebookincubator/create-react-app) so you can update it easly.
 
