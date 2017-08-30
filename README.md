@@ -14,18 +14,20 @@ Then install the needed Node modules with the command:
  npm install
  ```
 
-And finaly lauch the app with: 
+And finaly launch the app with: 
  ``` shell
  npm start
  ```
 
-*This app was bootstrapped with [Create React App] (https://github.com/facebookincubator/create-react-app) so you can update it easly.*
-
 ## App and React Architecture
-The following choices were made regarding type of React Components
+> *The following choices were made regarding type of React Components*
 
-index.js
-handle the Main React Router with BrowserRouter
+index.js | React Router | handle the main React Router with BrowserRouter
+App.js | React Class Component with State | handle the state of the updtaded Books 
 
-App.js
-
+ ``` shell
+              index.js
+                 |
+                App.js
+ ```
+ 
