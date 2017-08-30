@@ -5,11 +5,13 @@ import camelcase from 'camelcase';
 
 // Define propers Shelfs Labels with Capitalization and correct Spacing
 const shelfsLabels = ["Currently Reading", "Want to Read", "Read"];
+const shelfsCategories = ["currentlyReading", "wantToRead", "read"];
 // Construct a map with the corresponding camelCase shelf property
 let mappingShelfLabels = {};
 shelfsLabels.forEach(shelf => {
   mappingShelfLabels[camelcase(shelf)] = shelf;
 });
+console.log(mappingShelfLabels);
 
 class Bookspage extends Component {
   constructor(props) {
@@ -35,17 +37,13 @@ class Bookspage extends Component {
     });
   }
 
-  // componentWillUpdate() {
-  //   this.setState({ isLoading: true });
-  // }
-
-  // componentDidUpdate() {
-  //   this.setState({ isLoading: false });    
-  // }
-
   render() {
-    const books = this.state.books || [];
-    const shelfs = this.props.shelfSplitter ;
+    // shortcuts
+    // const books = this.state.books;
+    const shelfs = this.props.shelfSplitter || null;
+    const newBooks = this.state.books
+    // modifiy the shelf of those filtered books according to the new shelf
+    .map(book => Object.assign({}, book, { shelf: Object.keys(shelfs).filter(shelf=>shelfs[shelf].includes(book.id))[0] }));
 
     return (
       <div>
@@ -58,17 +56,13 @@ class Bookspage extends Component {
           {(!this.state.isLoading) ? (
           <div className="list-books-content">
             {/* Looping over shelfs using Object.keys() */}
-            {Object.keys(shelfs).map((shelf, index) =>
+            {shelfsCategories.map((shelf, index) =>
               <div key={index}>
                 <Bookshelf
                   // find the correct Label according the current shelf
                   shelfTitle={mappingShelfLabels[shelf]}
-                  books={books
-                          // filter each book corresponding to the new shelfSplitter updated from Parent App Component
-                          .filter(book => shelfs[shelf].includes(book.id))
-                          // modifiy the shelf of those filtered books according to the new shelf
-                          .map(book => Object.assign({}, book, { shelf }))
-                          }
+                  // filter each book corresponding to the new shelfSplitter updated from Parent App Component
+                  books={newBooks.filter(book => book.shelf === shelf)}
                   {...this.props}/>
               </div>
             )}
