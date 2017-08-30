@@ -22,6 +22,7 @@ class Bookspage extends Component {
 
   componentDidMount() {
     let shelfSplitter = {};
+
     getAll().then(fullbooks => {
       this.setState( { books: fullbooks.map(fullbook => {
         let { title, authors, imageLinks, id, shelf } = fullbook;
@@ -34,11 +35,17 @@ class Bookspage extends Component {
     });
   }
 
-  componentWill
+  // componentWillUpdate() {
+  //   this.setState({ isLoading: true });
+  // }
+
+  // componentDidUpdate() {
+  //   this.setState({ isLoading: false });    
+  // }
 
   render() {
     const books = this.state.books || [];
-    const shelfs = Object.keys(this.props.shelfSplitter) ;
+    const shelfs = this.props.shelfSplitter ;
 
     return (
       <div>
@@ -47,15 +54,24 @@ class Bookspage extends Component {
             <h1>MyReads</h1>
           </div>
 
+          {/* Waitting for the fetch books getAll request with a Spinner*/}
           {(!this.state.isLoading) ? (
           <div className="list-books-content">
-
-            {shelfs.map((shelf, index) =>
+            {/* Looping over shelfs using Object.keys() */}
+            {Object.keys(shelfs).map((shelf, index) =>
               <div key={index}>
-                <Bookshelf shelfTitle={mappingShelfLabels[shelf]} books={books.filter(book=>book.shelf===shelf)} {...this.props}/>
+                <Bookshelf
+                  // find the correct Label according the current shelf
+                  shelfTitle={mappingShelfLabels[shelf]}
+                  books={books
+                          // filter each book corresponding to the new shelfSplitter updated from Parent App Component
+                          .filter(book => shelfs[shelf].includes(book.id))
+                          // modifiy the shelf of those filtered books according to the new shelf
+                          .map(book => Object.assign({}, book, { shelf }))
+                          }
+                  {...this.props}/>
               </div>
             )}
-
           </div>) : (
             <h2 className=" bookshelf-books bookshelf bookshelf-title">
               <i className="fa fa-spinner fa-pulse fa-lg fa-fw"></i> loading Books</h2>
