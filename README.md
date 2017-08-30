@@ -22,14 +22,22 @@ And finaly launch the app with:
 ## App and React Architecture
 > *The following choices were made regarding the types of React Components*
 
-App files | Type of ReactComponent | Purpose
---- | --- | ---
-index.js | React Router | handle the main React Router with BrowserRouter
-App.js | React Class Component with State | handle the state of the updtaded Books 
-
  ``` shell
               index.js
                  |
                 App.js
+                 |
+            ------------     
+            |           |
+       Search.js    Bookspage.js
+            |           |
+         Book.js    Bookshelf.js
+                        |
+                      Book.js
  ```
+
+App files | Type of ReactComponent | Purpose
+--- | --- | ---
+index.js | React Router | handle the main React Router with BrowserRouter
+App.js | React Class Component with State and 2 React Route | handle the state of the updtaded Books 
 
