@@ -1,8 +1,19 @@
 import React, { Component } from 'react';
 
 class Search extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: true,
+      isMoving: false,
+      books: [],
+    };
+    this.movingSpinner = this.movingSpinner.bind(this);
+  }
 
-  
+  componentDidMount() {
+  }
+
   render() {
     return (
     <div>
