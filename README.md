@@ -23,17 +23,17 @@ And finaly launch the app with:
 > *The following choices were made regarding the types of React Components*
 
  ``` shell
-              index.js
+              index.js              <---- init router      :: no req to the database API
                  |
-                App.js
-                 |
-            ------------     
-            |           |
-       Search.js    Bookspage.js
-            |           |
-         Book.js    Bookshelf.js
-                        |
-                      Book.js
+                App.js              <---- state + 2 routes :: maintain the "books user" state
+                 |                                                                        ^
+            -------------            I                                                    |
+            |           |                                                                 |
+       Search.js    Bookspage.js    <---- state      <--->   fetch books getAll()         |
+            |           |                                                                 | 
+         Book.js    Bookshelf.js    <---- stateless     ::   no req                       |
+                        |                                                                 |
+                      Book.js       <---- stateless  <--->   req and fetch the update() ---
  ```
 
 App files | Type of ReactComponent | Purpose

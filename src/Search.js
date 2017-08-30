@@ -8,7 +8,7 @@ class Search extends Component {
       isMoving: false,
       books: [],
     };
-    this.movingSpinner = this.movingSpinner.bind(this);
+    // this.movingSpinner = this.movingSpinner.bind(this);
   }
 
   componentDidMount() {
