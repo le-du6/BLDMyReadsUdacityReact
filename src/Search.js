@@ -26,25 +26,24 @@ class Search extends Component {
   }
 
   onInputChange(term) {
-    console.log(term, term.length);
-    if (term.length > 2) {
-      let res = terms.filter(x=>x.toLowerCase().includes(term.toLowerCase()));
-      console.log(res, this.state.inputSearchValue);
-
-      if (res[0] !== this.state.inputSearchValue) {
-        console.log(res[0]);
+    console.log(term, this.state.inputSearchValue);
+    // search only from 3 char
+    if (term.length > 2 || term.length===0 ) {
+      // handle the first corresponding terms
+      let res = terms.filter(x=>x.toLowerCase().includes(term.toLowerCase()||'***')) || [];
+      console.log(res)
+      // set new state search with a callback to fetch result
+      if (res[0] !== this.state.inputSearchValue && res[0] !== '') {
         this.setState({ inputSearchValue: res[0] || '' }, x => (this.state.inputSearchValue !== '')
-        ? setTimeout(this.fetchSearch(this.state.inputSearchValue),450)
+        // fetch the books after 1/3 second
+        ? setTimeout(this.fetchSearch(this.state.inputSearchValue),350)
         : this.setState({isNoResult: true})
         );
-      } else {
-        return null;
-      }
+      } else return null;
     } else return null;
   }
 
   fetchSearch(term) {
-    console.log('fetching term: ',term);
     this.setState({ isLoading: true });
     search(term, 20).then(fullbooks => {
       this.setState( { books: fullbooks.map(fullbook => {
@@ -52,7 +51,6 @@ class Search extends Component {
         return { title, authors, imageLinks, id, shelf };
         })
       });
-      // console.log(this.state.books);
       this.setState({ isLoading: false });
       this.setState({isNoResult: false})   
     });
@@ -86,19 +84,21 @@ class Search extends Component {
         <div className="search-books-results">
         {(!this.state.isLoading && !this.state.isAffecting)
           ? (
-            (this.state.isNoResult) ? ' no corresponding books :('
-            : (<ol className="books-grid">
-              {newBooks.map((book, index) =>
-                <li key={index}>
-                  <Book book={book} movingSpinner={(toggle)=>this.setState({isAffecting: toggle})} {...this.props}/>
-                </li>
-              )}
-              </ol>)
-
+            (this.state.isNoResult)
+              ? (<h2 className=" bookshelf-books bookshelf bookshelf-title">
+                <i className="fa fa-book fa-lg"></i>
+                &nbsp;no corresponding book
+              </h2>)
+              : (<ol className="books-grid">
+                {newBooks.map((book, index) =>
+                  <li key={index}>
+                    <Book book={book} movingSpinner={(toggle)=>this.setState({isAffecting: toggle})} {...this.props}/>
+                  </li>)}
+                </ol>)
           ) : (
             <h2 className=" bookshelf-books bookshelf bookshelf-title">
               <i className="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
-              {(!this.state.isAffecting) ? ' searching Books' : ' affecting Shelf'}
+              {(!this.state.isAffecting) ? ` searching for ${this.state.inputSearchValue} Books` : ' affecting Shelf'}
             </h2>
           )}
         </div>
