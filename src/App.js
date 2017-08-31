@@ -9,19 +9,13 @@ class App extends Component {
     super(props);
     this.state = {
       shelfSplitter: {},
-      isMoving: false,      
     };
-    this.movingSpinner = this.movingSpinner.bind(this);
     this.shelfSplitterUpdater = this.shelfSplitterUpdater.bind(this);
   }
 
-  movingSpinner(state) {
-    this.setState({ isMoving: state });
-  }
-
   shelfSplitterUpdater(shelfSplitter) {
-    // console.log('from App: ',shelfSplitter);
-    this.setState({ shelfSplitter });
+    console.log('from App: ',shelfSplitter);
+    this.setState({ shelfSplitter: Object.assign({}, shelfSplitter) });
   }
 
   render() {
@@ -34,15 +28,11 @@ class App extends Component {
             render={() => <Bookspage
                             shelfSplitter={shelfSplitter}
                             shelfSplitterUpdater={shelfSplitterUpdater}
-                            isMoving={this.state.isMoving}
-                            movingSpinner={this.movingSpinner}
                               />} />
         <Route path="/search" 
             render={() => <Search
                             shelfSplitter={shelfSplitter}
                             shelfSplitterUpdater={shelfSplitterUpdater}
-                            isMoving={this.state.isMoving}
-                            movingSpinner={this.movingSpinner}
               />} />
       </div>
     );

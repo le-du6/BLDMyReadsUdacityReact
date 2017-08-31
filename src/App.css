@@ -140,6 +140,30 @@ body, .app {
   align-items: flex-end;
 }
 
+.book-shelf-changer-red {
+  /* display: flex; */
+  text-align: center;
+  vertical-align: middle;
+  position: absolute;
+  right: 110px;
+  bottom: 160px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #FFFD00;
+  /* background-image: url('./icons/arrow-drop-down.svg'); */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 20px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.span-spill {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+
 .book-shelf-changer {
   position: absolute;
   right: 0;
