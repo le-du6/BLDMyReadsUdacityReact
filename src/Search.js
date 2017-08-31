@@ -1,19 +1,9 @@
 import React, { Component } from 'react';
 import { search } from './BooksAPI';
 import { update } from './BooksAPI';
-// import camelcase from 'camelcase';
 import { terms } from './Searchterms';
-
 import Book from './Book';
 
-// const shelfsCategories = ["currentlyReading", "wantToRead", "read"];
-// // Define propers Shelfs Labels with Capitalization and correct Spacing
-// const shelfsLabels = ["Currently Reading", "Want to Read", "Read"];
-// // Construct a map with the corresponding camelCase shelf property
-// let mappingShelfLabels = {};
-// shelfsLabels.forEach(shelf => {
-//   mappingShelfLabels[camelcase(shelf)] = shelf;
-// });
 
 class Search extends Component {
   constructor(props) {
@@ -36,18 +26,21 @@ class Search extends Component {
   }
 
   onInputChange(term) {
-    console.log(term.length);
+    console.log(term, term.length);
     if (term.length > 2) {
-    let res = terms.filter(x=>x.toLowerCase().includes(term.toLowerCase()));
-    
-    if (res[0] !== this.state.inputSearchValue) {
-      this.setState({ inputSearchValue: res[0]});
-      (this.state.inputSearchValue !== '')
+      let res = terms.filter(x=>x.toLowerCase().includes(term.toLowerCase()));
+      console.log(res, this.state.inputSearchValue);
+
+      if (res[0] !== this.state.inputSearchValue) {
+        console.log(res[0]);
+        this.setState({ inputSearchValue: res[0] || '' }, x => (this.state.inputSearchValue !== '')
         ? setTimeout(this.fetchSearch(this.state.inputSearchValue),450)
-        : null;
-    } else {
-      null;
-    };} else {null;}
+        : this.setState({isNoResult: true})
+        );
+      } else {
+        return null;
+      }
+    } else return null;
   }
 
   fetchSearch(term) {
@@ -60,7 +53,8 @@ class Search extends Component {
         })
       });
       // console.log(this.state.books);
-      this.setState({ isLoading: false });    
+      this.setState({ isLoading: false });
+      this.setState({isNoResult: false})   
     });
   }
 
@@ -82,6 +76,7 @@ class Search extends Component {
           <a className="close-search" href='/'>Close</a>
           <div className="search-books-input-wrapper">
             <input
+              autoFocus
               onChange={e=>this.onInputChange(e.target.value)}
               defaultValue={this.state.inputSearchValue}
               type="text"
