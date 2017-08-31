@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { search } from './BooksAPI';
 import { update } from './BooksAPI';
 // import camelcase from 'camelcase';
+import { terms } from './Searchterms';
 
 import Book from './Book';
 
@@ -18,25 +19,48 @@ class Search extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: true,
+      isLoading: false,
       isAffecting: false,
+      isNoResult: false,
+      inputSearchValue: '',
       books: [],
     };
+    this.onInputChange = this.onInputChange.bind(this);
+    this.fetchSearch = this.fetchSearch.bind(this);
   }
 
   componentDidMount() {
     update('***retreive-books-list****', 'none').then( res => {
       this.props.shelfSplitterUpdater(res);
       });
+  }
 
-    search('Art', 20).then(fullbooks => {
+  onInputChange(term) {
+    console.log(term.length);
+    if (term.length > 2) {
+    let res = terms.filter(x=>x.toLowerCase().includes(term.toLowerCase()));
+    
+    if (res[0] !== this.state.inputSearchValue) {
+      this.setState({ inputSearchValue: res[0]});
+      (this.state.inputSearchValue !== '')
+        ? setTimeout(this.fetchSearch(this.state.inputSearchValue),450)
+        : null;
+    } else {
+      null;
+    };} else {null;}
+  }
+
+  fetchSearch(term) {
+    console.log('fetching term: ',term);
+    this.setState({ isLoading: true });
+    search(term, 20).then(fullbooks => {
       this.setState( { books: fullbooks.map(fullbook => {
         let { title, authors, imageLinks, id, shelf='none' } = fullbook;
         return { title, authors, imageLinks, id, shelf };
-      })
-    });
-      console.log(this.state.books)
-      this.setState({ isLoading: false });
+        })
+      });
+      // console.log(this.state.books);
+      this.setState({ isLoading: false });    
     });
   }
 
@@ -57,20 +81,25 @@ class Search extends Component {
         <div className="search-books-bar">
           <a className="close-search" href='/'>Close</a>
           <div className="search-books-input-wrapper">
-            {/* NOTES: Every search is limited by search terms. */}
-            <input type="text" placeholder="Search by title or author" />
-
+            <input
+              onChange={e=>this.onInputChange(e.target.value)}
+              defaultValue={this.state.inputSearchValue}
+              type="text"
+              placeholder="Search by title or author" />
           </div>
         </div>
         <div className="search-books-results">
         {(!this.state.isLoading && !this.state.isAffecting)
-          ? (<ol className="books-grid">
+          ? (
+            (this.state.isNoResult) ? ' no corresponding books :('
+            : (<ol className="books-grid">
               {newBooks.map((book, index) =>
                 <li key={index}>
                   <Book book={book} movingSpinner={(toggle)=>this.setState({isAffecting: toggle})} {...this.props}/>
                 </li>
               )}
-              </ol>
+              </ol>)
+
           ) : (
             <h2 className=" bookshelf-books bookshelf bookshelf-title">
               <i className="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
