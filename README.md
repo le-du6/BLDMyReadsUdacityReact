@@ -28,21 +28,25 @@ And finaly launch the app with:
 > *The following choices were made regarding the types of React Components*
 
  ``` shell
-              index.js              <---- init router      :: no req to the database API
-                 |
-                App.js              <---- state + 2 routes :: maintain the "books user" state
-                 |                                                                        ^
-            -------------                                                                 |
-            |           |                                                                 |
-       Search.js    Bookspage.js    <---- state      <--->   fetch books getAll()         |
-            |           |                                                                 | 
-         Book.js    Bookshelf.js    <---- stateless     ::   no req                       |
-                        |                                                                 |
-                      Book.js       <---- stateless  <--->   req and fetch the update() ---
+                                 index.js              <---- init router      :: no req to the database API
+                                    |
+                                   App.js              <---- state + 2 routes :: maintain the "books user" state
+                                    |                                                                        ^
+                               -------------                                                                 |
+                               |           |                                                                 |
+  fetch search()  <--->   Search.js    Bookspage.js    <---- state      <--->   fetch books getAll()         |
+  + affecting                  |           |                                                                 | 
+  + correct shelf           Book.js    Bookshelf.js    <---- stateless     ::   no req                       |
+                                           |                                                                 |
+                                         Book.js       <---- stateless  <--->   req and fetch the update() ---
  ```
 
 App files | Type of ReactComponent | Purpose
 --- | --- | ---
 index.js | React Router | handle the main React Router with BrowserRouter
 App.js | React Class Component with State and 2 React Route | handle the state of the updtaded Books 
+Bookspage.js | React Class Component with State | fetch getAll() books and affect correct shelf
+Bookshelf.js | Stateless Component | render each shelf from the parent loop 
+Book.js | Stateless Component | render each book from the parent loop
+Search.js | React Class Component with State  | fetch search() req and affect correct shelf 
 

@@ -26,12 +26,10 @@ class Search extends Component {
   }
 
   onInputChange(term) {
-    console.log(term, this.state.inputSearchValue);
     // search only from 3 char
     if (term.length > 2 || term.length===0 ) {
       // handle the first corresponding terms
       let res = terms.filter(x=>x.toLowerCase().includes(term.toLowerCase()||'***')) || [];
-      console.log(res)
       // set new state search with a callback to fetch result
       if (res[0] !== this.state.inputSearchValue && res[0] !== '') {
         this.setState({ inputSearchValue: res[0] || '' }, x => (this.state.inputSearchValue !== '')

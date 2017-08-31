@@ -5,10 +5,8 @@ const Book = (props) => (
   <div className="book">
     <div className="book-top">
       <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${(props.book.imageLinks) ? props.book.imageLinks.thumbnail : null})`
-        }}></div>
-        {/* <div className="book-shelf-changer-red">
-        <span className="span-spill">{props.book.shelf}</span>
-        </div> */}
+        }}>
+      </div>
       <div className="book-shelf-changer">
         <select
           onChange={ event=> {
