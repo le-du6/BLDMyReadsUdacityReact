@@ -47,6 +47,6 @@ index.js | React Router | handle the main React Router with BrowserRouter
 App.js | React Class Component with State and 2 React Route | handle the state of the updtaded Books 
 Bookspage.js | React Class Component with State | fetch getAll() books and affect correct shelf
 Bookshelf.js | Stateless Component | render each shelf from the parent loop 
-Book.js | Stateless Component | render each book from the parent loop
+Book.js | Stateless Component | render each book from the parent loop and trigger the update() function to move the book
 Search.js | React Class Component with State  | fetch search() req and affect correct shelf 
 
