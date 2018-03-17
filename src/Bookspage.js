@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import Bookshelf from './Bookshelf';
 import { getAll } from './BooksAPI';
-import camelcase from 'camelcase';
+import camelize from 'camelize';
 
 const shelfsCategories = ["currentlyReading", "wantToRead", "read"];
 // Define propers Shelfs Labels with Capitalization and correct Spacing
 const shelfsLabels = ["Currently Reading", "Want to Read", "Read"];
-// Construct a map with the corresponding camelCase shelf property
+// Construct a map with the corresponding camelize shelf property
 let mappingShelfLabels = {};
 shelfsLabels.forEach(shelf => {
-  mappingShelfLabels[camelcase(shelf)] = shelf;
+  mappingShelfLabels[camelize(shelf)] = shelf;
 });
 
 class Bookspage extends Component {
@@ -17,7 +17,7 @@ class Bookspage extends Component {
     super(props);
     this.state = {
       isLoading: true,
-      isMoving: false,      
+      isMoving: false,
       books: [],
     };
     this.movingSpinner = this.movingSpinner.bind(this);
@@ -49,7 +49,7 @@ class Bookspage extends Component {
     const shelfs = this.props.shelfSplitter || null;
     // shortcut + re-affecting the correct shelf to each books when Re-render
     // modifiy the shelf of those filtered books according to the new shelf
-    const newBooks = this.state.books.map(book => 
+    const newBooks = this.state.books.map(book =>
       Object.assign( {}, book,
         // Assign the correct new shelf after the update
         { shelf: Object.keys(shelfs).filter(shelf => shelfs[shelf].includes(book.id))[0] }
